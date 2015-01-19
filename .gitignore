@@ -1,0 +1,5 @@
+pylint_*.html
+*.pyc
+.project
+.pydevproject
+.settings
