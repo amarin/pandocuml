@@ -1,6 +1,19 @@
 # Pandoc Plantuml filter
 
-Use plantuml.py as filter in order to make plantuml images from source code in markdown
+Use plantuml.py as filter in order to make plantuml images from source code in markdown.
+Source of plantuml can be included this way:
+
+	```
+	@startuml
+	<plantuml code>
+	@enduml
+	```
+
+or, you can define block style in header too, even without @startuml prefix:
+
+	```plantuml
+	<plantuml code>
+	```
 
 ## Use plantuml filter
 
