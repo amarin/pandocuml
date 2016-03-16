@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+echo "Any ideas?"
+
+CWD="`pwd`"
+INFILE=$1
+OUTEXT=$2
+
+FILENAME=$(basename "$INFILE")
+INPATH=$(dirname "$INFILE")
+EXTENSION="${FILENAME##*.}"
+FILENAME_NOEXT="${FILENAME%.*}"
+
+echo "Detect path"
+# detect script path
+# http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+cd $CWD
+
+echo "Current dir $DIR"
+
+# detect pandoc
+PANDOC="`which pandoc`"
+if [ -z $PANDOC ]; then
+    echo "Pandoc binary not found. Install it and/or add pandoc binary path to PATH env"
+fi
+echo "Pandoc at $PANDOC"
+
+
+# make outfile name
+OUTFILENAME="$FILENAME_NOEXT.$OUTEXT"
+echo -n "Converting $FILENAME to $OUTFILENAME"
+if [[ "$INPATH" == "." ]];
+then
+    echo "";
+else
+    echo " at $INPATH";
+fi
+
+ADDON=""
+if [[ $OUTEXT == "pdf" ]]; then
+    ADDON="--latex-engine=xelatex --template=template.tex"
+fi
+
+
+CMD="$PANDOC --filter $DIR/plantuml.py -o $INPATH/$OUTFILENAME $INFILE $ADDON"
+echo $CMD
+`$CMD`
