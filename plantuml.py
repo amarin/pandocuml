@@ -74,12 +74,13 @@ def plantuml(key, value, format, meta):
             img_params = ["", [], []]
             img = Image(img_params, [img_alt], [img_src, img_title])
 
-            #os.remove(img_src)
             if not os.path.exists(img_src):
                 info("Image file %s not exists, so source is new or changed, process code" % img_src)
                 try:
                     uml = imagedir + '/' + filename + '.txt'
-                    if not os.path.isfile(img_src):
+
+                    # make directory
+                    if not os.path.exists(imagedir):
                         try:
                             os.makedirs(imagedir)
                             info("Created directory %s", imagedir)
@@ -87,6 +88,7 @@ def plantuml(key, value, format, meta):
                             error("Failed create image dir: %s", exc)
                             exit(64)
 
+                    # proceed with image processing
                     debug("Will create image %s\n" % img_src)
                     with open(uml, 'w') as plantuml_source:
                         debug("Saving plantuml source in %s" % plantuml_source)

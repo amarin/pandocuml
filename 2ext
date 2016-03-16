@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo "Any ideas?"
+# echo "Any ideas?"
 
 CWD="`pwd`"
 INFILE=$1
@@ -10,7 +10,7 @@ INPATH=$(dirname "$INFILE")
 EXTENSION="${FILENAME##*.}"
 FILENAME_NOEXT="${FILENAME%.*}"
 
-echo "Detect path"
+# echo "Detect path"
 # detect script path
 # http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
 SOURCE="${BASH_SOURCE[0]}"
@@ -22,14 +22,14 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 cd $CWD
 
-echo "Current dir $DIR"
+#echo "Current dir $DIR"
 
 # detect pandoc
 PANDOC="`which pandoc`"
 if [ -z $PANDOC ]; then
     echo "Pandoc binary not found. Install it and/or add pandoc binary path to PATH env"
 fi
-echo "Pandoc at $PANDOC"
+#echo "Pandoc at $PANDOC"
 
 
 # make outfile name
@@ -49,5 +49,5 @@ fi
 
 
 CMD="$PANDOC --filter $DIR/plantuml.py -o $INPATH/$OUTFILENAME $INFILE $ADDON"
-echo $CMD
+#echo $CMD
 `$CMD`
