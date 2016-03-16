@@ -1,4 +1,5 @@
-pylint_*.html
+.idea
+*.html
 *.pyc
 .project
 .pydevproject
