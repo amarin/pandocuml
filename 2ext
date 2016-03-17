@@ -49,5 +49,5 @@ fi
 
 
 CMD="$PANDOC --filter $DIR/plantuml.py -o $INPATH/$OUTFILENAME $INFILE $ADDON"
-#echo $CMD
+echo $CMD
 `$CMD`

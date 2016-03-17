@@ -1,8 +1,8 @@
 #!env python
 
 """
-Pandoc filter to process code blocks with class "graphviz" into
-graphviz-generated images.
+Pandoc filter to process code blocks with class "plantuml" into
+plantuml-generated images.
 """
 
 import hashlib
@@ -42,30 +42,33 @@ warning("Using plantuml %s with options %s", plantuml_jar, plantuml_options)
 
 def sha1(x):
     # make hash of string x
-    return hashlib.sha1(x).hexdigest()
+    return hashlib.sha1(x.encode('utf-8')).hexdigest()
 
 
 def plantuml(key, value, format, meta):
     if key == 'CodeBlock':
         [[ident, classes, keyvals], plantuml_code] = value
         caption = "caption"
+        plantuml_code = u"%s" % plantuml_code
         if "plantuml" in classes or plantuml_code.startswith(PLANTUML_PREFIX):
             warning("Come into plantuml block")
+            debug("Plantumlcode type: %s" % type(plantuml_code))
+            debug(u"%s" % plantuml_code)
             # prefix with @staruml if not found
             if not plantuml_code.startswith(PLANTUML_PREFIX):
-                plantuml_code = '{}\n{}'.format(
+                plantuml_code = u'{}\n{}'.format(
                     PLANTUML_PREFIX,
                     plantuml_code
                 )
 
             if not plantuml_code.endswith(PLANTUML_SUFFIX):
-                plantuml_code = '{}\n{}'.format(
+                plantuml_code = u'{}\n{}'.format(
                     plantuml_code,
                     PLANTUML_SUFFIX
                 )
 
             filename = sha1(plantuml_code)
-            # filetype = "png"
+
             img_alt = Str(caption)
             img_src = imagedir + '/' + filename + '.png'
             debug("Image path %s" % img_src)
@@ -92,7 +95,7 @@ def plantuml(key, value, format, meta):
                     debug("Will create image %s\n" % img_src)
                     with open(uml, 'w') as plantuml_source:
                         debug("Saving plantuml source in %s" % plantuml_source)
-                        plantuml_source.write(plantuml_code)
+                        plantuml_source.write(plantuml_code.encode('utf-8'))
                         info("Saved plantumlcode at separate file %s", uml)
                     info("Process plantuml")
                     execute_plantuml = "java -jar {} {} {}".format(plantuml_jar, plantuml_options, uml)
@@ -111,6 +114,9 @@ def plantuml(key, value, format, meta):
             para = Para([img])
             debug("Para: %s" % para)
             return para
-
+    else:
+        #debug(u"Block: %s" % key)
+        pass
+        
 if __name__ == "__main__":
     toJSONFilter(plantuml)
