@@ -44,7 +44,7 @@ fi
 
 ADDON=""
 if [[ $OUTEXT == "pdf" ]]; then
-    ADDON="--latex-engine=xelatex --template=template.tex"
+    ADDON="--latex-engine=xelatex --template=$DIR/template.tex"
 fi
 
 
