@@ -46,7 +46,9 @@ ADDON=""
 if [[ $OUTEXT == "pdf" ]]; then
     ADDON="--latex-engine=xelatex --template=$DIR/template.tex"
 fi
-
+if [[ $OUTEXT == "html" ]]; then
+    ADDON="-s -c $DIR/buttondown.css --self-contained"
+fi
 
 CMD="$PANDOC --filter $DIR/plantuml.py -o $INPATH/$OUTFILENAME $INFILE $ADDON"
 echo $CMD
