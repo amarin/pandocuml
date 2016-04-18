@@ -299,7 +299,7 @@ table
     {
     border-collapse: collapse;
     border-spacing: 0; /* IE 6 */
-    border: 2pt solid #000;
+    border: 1pt solid #000;
     /*
     border-bottom: 2pt solid #000;
     border-top: 2pt solid #000; /* The caption on top will not have a bottom-border */
@@ -347,6 +347,7 @@ td, th /* Table cells and table header cells */
     padding-right:  0.5em;
     padding-top:    0.2em;
     padding-bottom: 0.2em;
+    border: 1px solid silver;
     }
     
 /* Removes padding on left and right of table for a tight look. Good if thead has no background color*/
@@ -363,10 +364,11 @@ tr td:first-child, tr th:first-child
 
 th /* Table header cells */
     {
-    font-weight: bold; 
+    font-weight: bold;
+    border-bottom: 2pt solid #000;
     }
 td {
-    border: 1px solid silver;
+
 }
 
 tfoot /* Table footer (what appears here if caption is on top?) */
